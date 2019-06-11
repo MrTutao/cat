@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Author: stdrickforce (Tengyuan Fan)
+# Email: <stdrickforce@gmail.com> <fantengyuan@baixing.com>
+
 # Copyright (c) 2011-2018, Meituan Dianping. All Rights Reserved.
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
@@ -15,9 +21,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import functools
 import traceback
 
@@ -25,6 +28,7 @@ from .const import CAT_ERROR
 from .container import sdk
 from .event import log_exception
 from .message import NullMessage
+from .sdk import PyTransaction
 from .version import _
 
 __all__ = ['Transaction', 'transaction']
@@ -34,6 +38,7 @@ class Transaction(NullMessage):
 
     def __init__(self, mtype, mname):
         self._trans = sdk().new_transaction(mtype, mname)
+        self._py = isinstance(self._trans, PyTransaction)
         self._completed = False
 
     def complete(self):
@@ -43,14 +48,29 @@ class Transaction(NullMessage):
         return self
 
     def set_status(self, status):
-        self._trans.setStatus(self._trans, _(status))
+        if self._py:
+            self._trans.setStatus(self._trans, status)
+        else:
+            self._trans.setStatus(self._trans, _(status))
         return self
+
+    def __add_data(self, data):
+        if self._py:
+            self._trans.addData(self._trans, data)
+        else:
+            self._trans.addData(self._trans, _(data))
+
+    def __add_kv(self, key, val):
+        if self._py:
+            self._trans.addKV(self._trans, key, val)
+        else:
+            self._trans.addKV(self._trans, _(key), _(val))
 
     def add_data(self, data, val=None):
         if val is None:
-            self._trans.addData(self._trans, _(data))
+            self.__add_data(data)
         else:
-            self._trans.addKV(self._trans, _(data), _(val))
+            self.__add_kv(data, val)
         return self
 
     def set_duration(self, duration):

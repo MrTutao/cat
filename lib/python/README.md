@@ -1,4 +1,4 @@
-# Cat Client for Python
+# Python Client for CAT
 
 [中文文档](./README.zh-CN.md)
 
@@ -27,8 +27,8 @@ python setup.py install
 ```bash
 docker build -f docker/alpine.df . -t pycat:alpine
 docker build -f docker/centos7.df . -t pycat:centos7
-docker build -f docker/ubuntu1404.df . -t pycat:ubuntu18.04
-docker build -f docker/ubuntu1604.df . -t pycat:ubuntu18.04
+docker build -f docker/ubuntu1404.df . -t pycat:ubuntu14.04
+docker build -f docker/ubuntu1604.df . -t pycat:ubuntu16.04
 docker build -f docker/ubuntu1804.df . -t pycat:ubuntu18.04
 ```
 

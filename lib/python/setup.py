@@ -1,13 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-Cat-Python - Cat SDK for Python
-===============================
-
-Check out `Github <https://github.com/dianping/cat/>`_ to find out more.
-"""
-
 from setuptools import setup
 
 requirements = [
@@ -32,15 +25,15 @@ classifiers = [
 
 setup(
     name='cat-sdk',
-    version='3.0.0rc1',
+    version='3.1.2',
     author='Cat Team and Contributors',
     author_email='cat@dianping.com',
-    url="https://github.com/dianping/cat/",
+    url="https://github.com/dianping/cat/tree/master/lib/python",
     license="Apache License 2.0",
-    description="Python client for Cat",
-    long_description=__doc__,
+    description="Cat SDK for Python",
+    long_description=open("README.rst").read(),
     packages=[
-        "cat",
+            "cat",
     ],
     install_requires=requirements,
     classifiers=classifiers,

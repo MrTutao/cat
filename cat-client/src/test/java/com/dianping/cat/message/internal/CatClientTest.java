@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Queue;
 
+import com.dianping.cat.message.spi.MessageQueue;
 import junit.framework.Assert;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import org.junit.Before;
@@ -52,7 +53,7 @@ public class CatClientTest extends CatTestCase {
 		clientConfig.setMode("client");
 		clientConfig.addDomain(new Domain("Test").setEnabled(true));
 
-		File configFile = new File("/data/appdatas/cat/client.xml").getCanonicalFile();
+		File configFile = new File(Cat.getCatHome(),"client.xml").getCanonicalFile();
 
 		configFile.getParentFile().mkdirs();
 
@@ -65,10 +66,9 @@ public class CatClientTest extends CatTestCase {
 	@Before
 	public void before() throws Exception {
 		TransportManager manager = Cat.lookup(TransportManager.class);
-		Initializable queue = Reflects.forField()
+		MessageQueue queue = Reflects.forField()
 								.getDeclaredFieldValue(manager.getSender().getClass(), "m_queue",	manager.getSender());
 
-		queue.initialize();
 		m_queue = Reflects.forField().getDeclaredFieldValue(queue.getClass(), "m_queue", queue);
 	}
 
